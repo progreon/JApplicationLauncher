@@ -6,35 +6,48 @@
 package japplicationlauncher;
 
 import com.sun.istack.internal.logging.Logger;
+import japplicationlauncher.helpers.Version;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 
 /**
+ * TODO
  *
  * @author marco
  */
 public class Updater {
-    
+
     private final ResourceBundle rsb;
     private final String resourceFile = "updater";
-    
+
     private final String keyVersionUrl = "versionURL";
     private final String keyHistoryUrl = "historyURL";
+//    private final String keyUpdateRootFolder = "updateRootFolderURL";
 
     public Updater() {
         rsb = ResourceBundle.getBundle(resourceFile);
     }
 
-    public String getLatestVersion() throws Exception {
+    public Version getLatestVersion() throws Exception {
         String data = getData(rsb.getString(keyVersionUrl));
-        data = data.substring(data.indexOf("[version]")+9,data.indexOf("[/version]"));
-        System.out.println("Latest version = " + data);
-        
-        return data;
+        data = data.substring(data.indexOf("[version]") + 9, data.indexOf("[/version]"));
+        Version version = new Version(data);
+        System.out.println("Latest version = " + version.getInfo());
+
+        return version;
     }
-    
+
+    public Version getLatestSnapshot() throws Exception {
+        String data = getData(rsb.getString(keyVersionUrl));
+        data = data.substring(data.indexOf("[snapshot]") + 10, data.indexOf("[/snapshot]"));
+        Version version = new Version(data);
+        System.out.println("Latest snapshot = " + version.getInfo());
+
+        return version;
+    }
+
     public String getHistory() {
         String history;
         System.out.println("History URL = " + rsb.getString(keyHistoryUrl));
@@ -50,9 +63,10 @@ public class Updater {
         }
         return history;
     }
-    
+
     public void update() {
-        
+        // TODO
+//        throw new Not;
     }
 
     public String getData(String address) throws Exception {
@@ -69,5 +83,5 @@ public class Updater {
 
         return buffer;
     }
-    
+
 }

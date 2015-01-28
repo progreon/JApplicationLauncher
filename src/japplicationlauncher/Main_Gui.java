@@ -5,6 +5,8 @@
  */
 package japplicationlauncher;
 
+import japplicationlauncher.helpers.ReleaseStatus;
+import japplicationlauncher.helpers.Version;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -30,11 +32,11 @@ public class Main_Gui extends JFrame {
 
     private final ResourceBundle rsb;
     private final String resourceFile = "updater";
-    
-    private final String currentVersion = "0";
+
+    private final Version currrentVersion = new Version(ReleaseStatus.ALPHA, new int[]{0, 1});
     private final boolean checkUpdates;
     private final Updater updater;
-    
+
     //// GUI part ////
     private JPanel viewPane;
 
@@ -47,12 +49,12 @@ public class Main_Gui extends JFrame {
     private JButton btnStart;
     private JButton btnExit;
     //// End of GUI part ////
-    
+
     //// Strings ////
     private final String updateString = "Update & start application";
     private final String startString = "Start application";
     private final String exitString = "Exit";
-    
+
     private final String appJarName = ""; // Without the '.jar' at the end
     private final String startErrorMessage = "Failed to start application!";
     //// End of strings ////
@@ -75,34 +77,6 @@ public class Main_Gui extends JFrame {
         setResizable(false);
     }
 
-    private void initComponents() {
-        infoPane = new JTextPane();
-        infoPane.setContentType("text/html");
-        infoPane.setEditable(false);
-        infoPane.setBorder(null);
-        scp = new JScrollPane(infoPane);
-
-        lblVersionInfo = new JLabel("Current version: " + currentVersion);
-        btnUpdate = new JButton(this.updateString);
-        btnUpdate.addActionListener((ActionEvent e) -> { updateApp(); startApp(); });
-        btnUpdate.setEnabled(false);
-        btnStart = new JButton(this.startString);
-        btnStart.addActionListener((ActionEvent e) -> { startApp(); });
-        btnExit = new JButton(this.exitString);
-        btnExit.addActionListener((ActionEvent e) -> { dispose(); });
-        
-        buttonPane = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPane.add(lblVersionInfo);
-        buttonPane.add(btnUpdate);
-        buttonPane.add(btnStart);
-        buttonPane.add(btnExit);
-
-        viewPane = new JPanel(new BorderLayout());
-        viewPane.add(scp, BorderLayout.CENTER);
-        viewPane.add(buttonPane, BorderLayout.SOUTH);
-        setContentPane(viewPane);
-    }
-
     /**
      * Load content on screen.
      *
@@ -111,28 +85,18 @@ public class Main_Gui extends JFrame {
         infoPane.setText(updater.getHistory());
         if (checkUpdates) {
             try {
-                String latestVersion = updater.getLatestVersion();
+                Version latestVersion = updater.getLatestVersion();
                 lblVersionInfo.setText(lblVersionInfo.getText() + " (latest: " + latestVersion + ")");
-                btnUpdate.setEnabled(isNewerVersion(latestVersion));
+                updater.getLatestSnapshot();
+                btnUpdate.setEnabled(latestVersion.isNewerThan(currrentVersion));
             } catch (Exception ex) {
                 Logger.getLogger(Main_Gui.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
-    
-    private boolean isNewerVersion(String latestVersion) {
-        String[] current = currentVersion.split("\\.");
-        String[] latest = latestVersion.split("\\.");
-        int i = 0;
-        while (i < Math.min(current.length, latest.length) && current[i].equals(latest[i])) {
-            i++;
-        }
-        return (i < Math.min(current.length, latest.length) && Integer.parseInt(current[i]) < Integer.parseInt(latest[i]))
-                || (i == Math.min(current.length, latest.length) && latest.length > current.length);
-    }
 
     private void startApp() {
-        String appJar = rsb.getString("applicationfolder") + "/" + appJarName + ".jar";
+        String appJar = rsb.getString("applicationfolder") + "/" + appJarName;
         String[] command = {"java", "-jar", appJar};
         try {
             File file = new File(appJar);
@@ -147,9 +111,44 @@ public class Main_Gui extends JFrame {
             JOptionPane.showMessageDialog(this, startErrorMessage, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void updateApp() {
         this.updater.update();
+    }
+
+    private void initComponents() {
+        infoPane = new JTextPane();
+        infoPane.setContentType("text/html");
+        infoPane.setEditable(false);
+        infoPane.setBorder(null);
+        scp = new JScrollPane(infoPane);
+
+        lblVersionInfo = new JLabel("Current version: " + currrentVersion);
+        btnUpdate = new JButton(this.updateString);
+        btnUpdate.addActionListener((ActionEvent e) -> {
+            updateApp();
+            startApp();
+        });
+        btnUpdate.setEnabled(false);
+        btnStart = new JButton(this.startString);
+        btnStart.addActionListener((ActionEvent e) -> {
+            startApp();
+        });
+        btnExit = new JButton(this.exitString);
+        btnExit.addActionListener((ActionEvent e) -> {
+            dispose();
+        });
+
+        buttonPane = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonPane.add(lblVersionInfo);
+        buttonPane.add(btnUpdate);
+        buttonPane.add(btnStart);
+        buttonPane.add(btnExit);
+
+        viewPane = new JPanel(new BorderLayout());
+        viewPane.add(scp, BorderLayout.CENTER);
+        viewPane.add(buttonPane, BorderLayout.SOUTH);
+        setContentPane(viewPane);
     }
 
 }
