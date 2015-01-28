@@ -6,12 +6,15 @@
 package japplicationlauncher;
 
 /**
+ * TODO
  *
  * @author marco
  */
 public class JApplicationLauncher {
 
     /**
+     * TODO
+     * 
      * @param args the command line arguments
      */
     public static void main(String[] args) {

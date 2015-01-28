@@ -5,12 +5,12 @@
  */
 package japplicationlauncher;
 
-import com.sun.istack.internal.logging.Logger;
 import japplicationlauncher.helpers.Version;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * TODO
@@ -26,10 +26,19 @@ public class Updater {
     private final String keyHistoryUrl = "historyURL";
 //    private final String keyUpdateRootFolder = "updateRootFolderURL";
 
+    /**
+     * TODO
+     */
     public Updater() {
         rsb = ResourceBundle.getBundle(resourceFile);
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     * @throws Exception
+     */
     public Version getLatestVersion() throws Exception {
         String data = getData(rsb.getString(keyVersionUrl));
         data = data.substring(data.indexOf("[version]") + 9, data.indexOf("[/version]"));
@@ -39,6 +48,12 @@ public class Updater {
         return version;
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     * @throws Exception
+     */
     public Version getLatestSnapshot() throws Exception {
         String data = getData(rsb.getString(keyVersionUrl));
         data = data.substring(data.indexOf("[snapshot]") + 10, data.indexOf("[/snapshot]"));
@@ -48,6 +63,11 @@ public class Updater {
         return version;
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     public String getHistory() {
         String history;
         System.out.println("History URL = " + rsb.getString(keyHistoryUrl));
@@ -55,7 +75,7 @@ public class Updater {
             history = getData(rsb.getString(keyHistoryUrl));
             history = history.substring(history.indexOf("<html"), history.indexOf("</html>") + 7);
         } catch (Exception ex) {
-            Logger.getLogger(Updater.class).log(Level.WARNING, ex.getMessage());
+            Logger.getLogger(Updater.class.getName()).log(Level.WARNING, ex.getMessage());
             System.out.println("Couldn't get online history page, loading local one ...");
             history = "<html><body style='background-color: #7b3803; color: #cccccc; padding: 10'>"
                     + "<h2>This is the offline history page!</h2>"
@@ -64,11 +84,21 @@ public class Updater {
         return history;
     }
 
+    /**
+     * TODO
+     */
     public void update() {
         // TODO
-//        throw new Not;
+        throw new UnsupportedOperationException("update(): Not supported yet.");
     }
 
+    /**
+     * TODO
+     *
+     * @param address
+     * @return
+     * @throws Exception
+     */
     public String getData(String address) throws Exception {
         URL url = new URL(address);
         InputStream html = url.openStream();

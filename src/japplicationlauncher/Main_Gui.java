@@ -25,6 +25,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
 /**
+ * TODO
+ * TODO: catch hyperlink click
  *
  * @author marco
  */
@@ -60,6 +62,7 @@ public class Main_Gui extends JFrame {
     //// End of strings ////
 
     /**
+     * TODO
      * Show the launcher GUI.
      *
      * @param checkUpdates Whether to check for updates or not.
@@ -78,6 +81,7 @@ public class Main_Gui extends JFrame {
     }
 
     /**
+     * TODO
      * Load content on screen.
      *
      */

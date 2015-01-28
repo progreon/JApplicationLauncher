@@ -16,21 +16,37 @@ import java.util.Objects;
  */
 public class Version {
 
-//    private final String version;
-
     private ReleaseStatus releaseStatus;
     private int[] versionNo;
     private String subversion;
 
+    /**
+     * TODO
+     *
+     * @param version
+     * @throws VersionFormatException
+     */
     public Version(String version) throws VersionFormatException {
-//        this.version = version;
         this.parseVersionString(version);
     }
-    
+
+    /**
+     * TODO
+     *
+     * @param releaseStatus
+     * @param versionNo
+     */
     public Version(ReleaseStatus releaseStatus, int[] versionNo) {
         this(releaseStatus, versionNo, "");
     }
-    
+
+    /**
+     * TODO
+     *
+     * @param releaseStatus
+     * @param versionNo
+     * @param subversion
+     */
     public Version(ReleaseStatus releaseStatus, int[] versionNo, String subversion) {
         this.releaseStatus = releaseStatus;
         this.versionNo = new int[versionNo.length];
@@ -38,10 +54,20 @@ public class Version {
         this.subversion = subversion;
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     public String getReleaseStatus() {
         return this.releaseStatus.toString();
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     public String getVersionNumber() {
         String no = "" + versionNo[0];
         for (int i = 1; i < versionNo.length; i++) {
@@ -50,23 +76,44 @@ public class Version {
         return no;
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
     public String getSubversion() {
         return subversion;
     }
-    
+
+    /**
+     * TODO
+     *
+     * @return
+     */
     public String getInfo() {
-        return (releaseStatus==ReleaseStatus.RELEASE?"":(releaseStatus + " ")) + getVersionNumber() + (subversion.equals("")?"":("_" + subversion));
-    }
-    
-    public String getFullInfo() {
-        return releaseStatus + " " + getVersionNumber() + (subversion.equals("")?"":("_" + subversion));
-    }
-    
-    @Override
-    public String toString() {
-        return releaseStatus.toString().substring(0, 1) + getVersionNumber() + (subversion.equals("")?"":("_" + subversion));
+        return (releaseStatus == ReleaseStatus.RELEASE ? "" : (releaseStatus + " ")) + getVersionNumber() + (subversion.equals("") ? "" : ("_" + subversion));
     }
 
+    /**
+     * TODO
+     *
+     * @return
+     */
+    public String getFullInfo() {
+        return releaseStatus + " " + getVersionNumber() + (subversion.equals("") ? "" : ("_" + subversion));
+    }
+
+    @Override
+    public String toString() {
+        return releaseStatus.toString().substring(0, 1) + getVersionNumber() + (subversion.equals("") ? "" : ("_" + subversion));
+    }
+
+    /**
+     * TODO
+     *
+     * @param version
+     * @return
+     */
     public boolean isNewerThan(Version version) {
         if (releaseStatus.level > version.releaseStatus.level) {
             return true;

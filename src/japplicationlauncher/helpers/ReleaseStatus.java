@@ -15,7 +15,7 @@ public final class ReleaseStatus {
     public static ReleaseStatus ALPHA = new ReleaseStatus("alpha", 0);
     public static ReleaseStatus BETA = new ReleaseStatus("beta", 1);
     public static ReleaseStatus RELEASE = new ReleaseStatus("release", 2);
-    public static ReleaseStatus SNAPSHOT = new ReleaseStatus("snapshot", 2);
+    public static ReleaseStatus SNAPSHOT = new ReleaseStatus("snapshot", -1);
 
     private final String status;
     public final int level;

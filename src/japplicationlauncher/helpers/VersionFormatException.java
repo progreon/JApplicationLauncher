@@ -12,17 +12,36 @@ package japplicationlauncher.helpers;
  */
 public class VersionFormatException extends Exception {
 
+    /**
+     * TODO
+     */
     public VersionFormatException() {
     }
 
+    /**
+     * TODO
+     *
+     * @param message
+     */
     public VersionFormatException(String message) {
         super(message);
     }
 
+    /**
+     * TODO
+     *
+     * @param cause
+     */
     public VersionFormatException(Throwable cause) {
         super(cause);
     }
 
+    /**
+     * TODO
+     *
+     * @param message
+     * @param cause
+     */
     public VersionFormatException(String message, Throwable cause) {
         super(message, cause);
     }
