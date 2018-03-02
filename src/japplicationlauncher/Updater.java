@@ -13,7 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * TODO
+ * The updater handles checking for updates, updating and getting the history
+ * page.
  *
  * @author marco
  */
@@ -25,6 +26,10 @@ public class Updater {
     private final String keyVersionUrl = "versionURL";
     private final String keyHistoryUrl = "historyURL";
 //    private final String keyUpdateRootFolder = "updateRootFolderURL";
+
+    private final String offlineHistory = "<html><body style='background-color: #7b3803; color: #cccccc; padding: 10'>"
+            + "<h2>This is the offline history page!</h2>"
+            + "</body></html>";
 
     /**
      * TODO
@@ -77,9 +82,7 @@ public class Updater {
         } catch (Exception ex) {
             Logger.getLogger(Updater.class.getName()).log(Level.WARNING, ex.getMessage());
             System.out.println("Couldn't get online history page, loading local one ...");
-            history = "<html><body style='background-color: #7b3803; color: #cccccc; padding: 10'>"
-                    + "<h2>This is the offline history page!</h2>"
-                    + "</body></html>";
+            history = offlineHistory;
         }
         return history;
     }

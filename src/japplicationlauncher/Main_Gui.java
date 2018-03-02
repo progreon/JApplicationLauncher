@@ -35,7 +35,7 @@ public class Main_Gui extends JFrame {
     private final ResourceBundle rsb;
     private final String resourceFile = "updater";
 
-    private final Version currrentVersion = new Version(ReleaseStatus.ALPHA, new int[]{0, 1});
+    private final Version currentVersion = new Version(ReleaseStatus.ALPHA, new int[]{0, 1});
     private final boolean checkUpdates;
     private final Updater updater;
 
@@ -57,8 +57,8 @@ public class Main_Gui extends JFrame {
     private final String startString = "Start application";
     private final String exitString = "Exit";
 
-    private final String appJarName = ""; // Without the '.jar' at the end
     private final String startErrorMessage = "Failed to start application!";
+    private final String jarErrorMessage = "The application jar does not exist!";
     //// End of strings ////
 
     /**
@@ -92,7 +92,7 @@ public class Main_Gui extends JFrame {
                 Version latestVersion = updater.getLatestVersion();
                 lblVersionInfo.setText(lblVersionInfo.getText() + " (latest: " + latestVersion + ")");
                 updater.getLatestSnapshot();
-                btnUpdate.setEnabled(latestVersion.isNewerThan(currrentVersion));
+                btnUpdate.setEnabled(latestVersion.isNewerThan(currentVersion));
             } catch (Exception ex) {
                 Logger.getLogger(Main_Gui.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -100,7 +100,7 @@ public class Main_Gui extends JFrame {
     }
 
     private void startApp() {
-        String appJar = rsb.getString("applicationfolder") + "/" + appJarName;
+        String appJar = rsb.getString("applicationfolder") + "/" + rsb.getString("applicationjar");
         String[] command = {"java", "-jar", appJar};
         try {
             File file = new File(appJar);
@@ -108,7 +108,7 @@ public class Main_Gui extends JFrame {
                 Runtime.getRuntime().exec(command);
                 System.exit(0);
             } else {
-                throw new IOException("The application jar does not exist!");
+                throw new IOException(jarErrorMessage);
             }
         } catch (IOException ex) {
             Logger.getLogger(Main_Gui.class.getName()).log(Level.SEVERE, null, ex);
@@ -127,7 +127,7 @@ public class Main_Gui extends JFrame {
         infoPane.setBorder(null);
         scp = new JScrollPane(infoPane);
 
-        lblVersionInfo = new JLabel("Current version: " + currrentVersion);
+        lblVersionInfo = new JLabel("Current version: " + currentVersion);
         btnUpdate = new JButton(this.updateString);
         btnUpdate.addActionListener((ActionEvent e) -> {
             updateApp();

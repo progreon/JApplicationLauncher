@@ -6,7 +6,7 @@
 package japplicationlauncher.helpers;
 
 /**
- * TODO
+ * An exception thrown when a string cannot be converted to a version.
  * 
  * @author marco
  */

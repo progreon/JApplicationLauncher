@@ -6,8 +6,9 @@
 package japplicationlauncher.helpers;
 
 /**
- * TODO
- * 
+ * A class that represents the release status of an application, one of: alpha,
+ * beta, release, snapshot.
+ *
  * @author marco
  */
 public final class ReleaseStatus {
@@ -18,6 +19,9 @@ public final class ReleaseStatus {
     public static ReleaseStatus SNAPSHOT = new ReleaseStatus("snapshot", -1);
 
     private final String status;
+    /**
+     * TODO
+     */
     public final int level;
 
     private ReleaseStatus(String status, int id) {
